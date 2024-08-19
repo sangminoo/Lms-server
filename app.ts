@@ -23,7 +23,7 @@ app.use(cookieParser());
 // cors => cross origin resource sharing
 app.use(
   cors({
-    origin: ["https://lms-client-kappa.vercel.app/"],
+    origin: ["https://lms-client-kappa.vercel.app"],
     credentials: true,
   })
 );

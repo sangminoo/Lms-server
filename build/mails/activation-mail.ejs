@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MinoLMS Activation Email</title>
+    <style type="text/css">
+      body {
+        margin: 0;
+        padding: 0;
+        min-width: 100%;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        background-color: #fafafa;
+        color: #222222;
+      }
+
+      a {
+        color: #000;
+        text-decoration: none;
+      }
+
+      h1 {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 1.25;
+        margin-top: 0;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+
+      h2.text {
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 1;
+      }
+      p {
+        margin-top: 0;
+        margin-bottom: 24px;
+      }
+
+      p>span {
+        font-weight: 600;
+      }
+      table td {
+        vertical-align: top;
+      }
+      /* Llayout */
+      .email-wrapper {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .email-header {
+        background-image: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12);
+        padding: 24px;
+        color: #ffffff;
+      }
+
+      .email-body {
+        padding: 24px;
+        background-color: #fff;
+      }
+
+      .email-footer {
+        padding: 24px;
+        background-color: #f6f6f6;
+      }
+      /* Btn */
+      .button {
+        display: inline-block;
+        background-color: #0070f3;
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 700;
+        text-align: center;
+        text-decoration: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-wrapper">
+      <div class="email-header">
+        <h1>Welcome to LMSmino</h1>
+      </div>
+      <div class="email-body">
+        <p>Hello <%= user.name %></p>
+        <p>Thank you for registering with LMSmino. To active your account, please use the following <span>activation code</span>: </p>
+        <h2><%= activationCode %></h2>
+        <p>Please enter this code on the activation page within the next 5 minutes</p>
+        <p>If you did not register for a LMSmino account, please ignore this email. Thank you. </p>    
+        <div class="email-footer">
+            <p>If you have any questions, please don't hesitate to contact us at <a href="mailto:support@minolms.com">support@minolms.com</a></p>
+        </div>    
+    </div>
+    </div>
+  </body>
+</html>
