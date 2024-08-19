@@ -74,6 +74,7 @@ app.all("*", (req: Request, res: Response, next: NextFunction) => {
 });
 
 
+app.set('trust proxy', 1);
 
 // Apply the rate limiting middleware to all requests.
 app.use(limiter)
