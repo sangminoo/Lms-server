@@ -24,9 +24,6 @@ app.use(
   cors({
     origin: ["https://lms-client-kappa.vercel.app"],
     credentials: true,
-    // update
-    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })
 );
 
@@ -39,8 +36,6 @@ const limiter = rateLimit({
   // store: ... , // Redis, Memcached, etc. See below.
 });
 
-// Apply the rate limiting middleware to all requests.
-app.use(limiter);
 
 // routes
 app.use(
@@ -72,9 +67,8 @@ app.all("*", (req: Request, res: Response, next: NextFunction) => {
   next(error);
 });
 
-app.set("trust proxy", 1);
+// app.set("trust proxy", 1);
 
 // Apply the rate limiting middleware to all requests.
 app.use(limiter);
-
 app.use(errorMiddleware);

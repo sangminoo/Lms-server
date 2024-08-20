@@ -11,14 +11,14 @@ exports.accessTokenOptions = {
     expires: new Date(Date.now() + accessTokenExpire * 60 * 60 * 1000),
     maxAge: accessTokenExpire * 60 * 60 * 1000,
     httpOnly: true,
-    samSite: "none",
+    sameSite: "none",
     secure: true,
 };
 exports.refreshTokenOptions = {
     expires: new Date(Date.now() + refreshTokenExpire * 24 * 60 * 60 * 1000),
     maxAge: refreshTokenExpire * 24 * 60 * 60 * 1000,
     httpOnly: true,
-    samSite: "none",
+    sameSite: "none",
     secure: true,
 };
 const sendToken = (user, statusCode, res) => {
@@ -29,6 +29,12 @@ const sendToken = (user, statusCode, res) => {
     //   only set secure to true in production
     // if ((process.env.NODE_ENV === "production")) {
     //   refreshTokenOptions.secure = true;
+    // }
+    // if (process.env.NODE_ENV === "production") {
+    //   accessTokenOptions.secure = true;
+    //   refreshTokenOptions.secure = true;
+    //   accessTokenOptions.sameSite = "None";
+    //   refreshTokenOptions.sameSite = "None";
     // }
     res.cookie("access_token", accessToken, exports.accessTokenOptions);
     res.cookie("refresh_token", refreshToken, exports.refreshTokenOptions);

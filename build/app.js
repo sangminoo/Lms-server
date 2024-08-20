@@ -25,9 +25,6 @@ exports.app.use((0, cookie_parser_1.default)());
 exports.app.use((0, cors_1.default)({
     origin: ["https://lms-client-kappa.vercel.app"],
     credentials: true,
-    // update
-    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 }));
 // Api request limit
 const limiter = (0, express_rate_limit_1.rateLimit)({
@@ -37,8 +34,6 @@ const limiter = (0, express_rate_limit_1.rateLimit)({
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
     // store: ... , // Redis, Memcached, etc. See below.
 });
-// Apply the rate limiting middleware to all requests.
-exports.app.use(limiter);
 // routes
 exports.app.use("/api/v1", user_route_1.default, course_route_1.default, order_route_1.default, notification_route_1.default, analytics_route_1.default, layout_route_1.default);
 // app.use("/api/v1", userRouter);
@@ -57,7 +52,7 @@ exports.app.all("*", (req, res, next) => {
     error.statusCode = 404;
     next(error);
 });
-exports.app.set("trust proxy", 1);
+// app.set("trust proxy", 1);
 // Apply the rate limiting middleware to all requests.
 exports.app.use(limiter);
 exports.app.use(error_1.errorMiddleware);
