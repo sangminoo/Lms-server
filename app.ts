@@ -9,8 +9,7 @@ import orderRouter from "./routes/order.route";
 import notificationRouter from "./routes/notification.route";
 import analyticsRouter from "./routes/analytics.route";
 import layoutRouter from "./routes/layout.route";
-import { rateLimit } from 'express-rate-limit'
-
+import { rateLimit } from "express-rate-limit";
 
 require("dotenv").config();
 
@@ -25,23 +24,23 @@ app.use(
   cors({
     origin: ["https://lms-client-kappa.vercel.app"],
     credentials: true,
+    // update
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })
 );
 
-
-// Api request limit 
+// Api request limit
 const limiter = rateLimit({
-	windowMs: 15 * 60 * 1000, // 15 minutes
-	limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
-	standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
-	legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
-	// store: ... , // Redis, Memcached, etc. See below.
-})
-
-
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+  standardHeaders: "draft-7", // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+  // store: ... , // Redis, Memcached, etc. See below.
+});
 
 // Apply the rate limiting middleware to all requests.
-app.use(limiter)
+app.use(limiter);
 
 // routes
 app.use(
@@ -73,10 +72,9 @@ app.all("*", (req: Request, res: Response, next: NextFunction) => {
   next(error);
 });
 
-
-app.set('trust proxy', 1);
+app.set("trust proxy", 1);
 
 // Apply the rate limiting middleware to all requests.
-app.use(limiter)
+app.use(limiter);
 
 app.use(errorMiddleware);
