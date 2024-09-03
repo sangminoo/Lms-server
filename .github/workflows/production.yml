@@ -1,5 +1,9 @@
 name: GitHub Actions Heroku Production Deployment CI/CD Pipeline
 
+env:
+  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+  HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+
 on:
   push:
     branches:
@@ -8,27 +12,32 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Setup Node.js environment
         uses: actions/setup-node@v3
         with:
-          node-version: '20'
-          # cache: 'npm'
+          node-version: 20
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build
-        run: npm run build  # Nếu bạn cần build dự án
+      - name: Build project
+        run: npm run build
 
       - name: Deploy to Heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
         run: |
-          git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
+          echo "machine api.heroku.com" > ~/.netrc
+          echo "  login $HEROKU_API_KEY" >> ~/.netrc
+          echo "  password $HEROKU_API_KEY" >> ~/.netrc
+          echo "machine git.heroku.com" >> ~/.netrc
+          echo "  login $HEROKU_API_KEY" >> ~/.netrc
+          echo "  password $HEROKU_API_KEY" >> ~/.netrc
+          git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git || true
           git push heroku main
