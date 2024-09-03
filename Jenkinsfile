@@ -6,14 +6,6 @@ pipeline {
     }
 
     stages {
-    // stage('Checkout') {
-    //         steps {
-    //             // Check out code from the repository
-    //             git 'https://github.com/sangminoo/Lms-server'
-    //         }
-    //     }
-
-                 // Install dependencies and build the project
         stage("install") {
             steps {
                 sh 'npm install'
