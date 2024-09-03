@@ -28,12 +28,15 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: Stash local changes
+        run: git stash --include-untracked
+
       - name: Add Heroku remote
         run: git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git || true
-      
+
       - name: Pull from Heroku
         run: git pull heroku main --rebase
-      
+
       - name: Deploy to Heroku
         run: |
           echo "machine api.heroku.com" > ~/.netrc
