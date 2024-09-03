@@ -27,6 +27,8 @@ jobs:
 
       - name: Build project
         run: npm run build
+      - name: Stash local changes
+        run: git stash --include-untracked
 
       - name: Pull from Heroku
         run: git pull heroku main --rebase
