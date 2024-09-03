@@ -28,6 +28,9 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: Pull from Heroku
+        run: git pull heroku main --rebase
+
       - name: Deploy to Heroku
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
