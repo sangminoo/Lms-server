@@ -10,14 +10,14 @@ on:
       - main
 
 jobs:
-  deploy:
+  prod_build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Node.js environment
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 20
@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build project
+      - name: Build the project
         run: npm run build
 
       - name: Configure Heroku credentials
@@ -37,18 +37,12 @@ jobs:
           echo "  login ${{ secrets.HEROKU_API_KEY }}" >> ~/.netrc
           echo "  password ${{ secrets.HEROKU_API_KEY }}" >> ~/.netrc
           chmod 600 ~/.netrc
-          
+
       - name: Add Heroku remote
-        run: git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git || true
+        run: heroku git:remote -a ${{ secrets.HEROKU_APP_NAME }}
 
-      - name: Stash local changes
-        run: git stash --include-untracked
-
-      - name: Pull from Heroku
-        run: git pull heroku main --rebase
-
-      - name: Apply stashed changes
-        run: git stash pop
+      - name: Pull from Heroku to avoid conflicts
+        run: git pull heroku main --rebase || true
 
       - name: Deploy to Heroku
         run: git push heroku main --force
