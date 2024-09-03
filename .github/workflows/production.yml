@@ -32,9 +32,12 @@ jobs:
         run: |
           echo "machine api.heroku.com" > ~/.netrc
           echo "  login ${{ secrets.HEROKU_API_KEY }}" >> ~/.netrc
+          echo "  password ${{ secrets.HEROKU_API_KEY }}" >> ~/.netrc
           echo "machine git.heroku.com" >> ~/.netrc
           echo "  login ${{ secrets.HEROKU_API_KEY }}" >> ~/.netrc
-
+          echo "  password ${{ secrets.HEROKU_API_KEY }}" >> ~/.netrc
+          chmod 600 ~/.netrc
+          
       - name: Add Heroku remote
         run: git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git || true
 
