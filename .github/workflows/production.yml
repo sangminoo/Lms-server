@@ -28,18 +28,24 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Stash local changes
-        run: git stash --include-untracked
+      - name: Configure Heroku credentials
+        run: |
+          echo "machine api.heroku.com" > ~/.netrc
+          echo "  login ${{ secrets.HEROKU_API_KEY }}" >> ~/.netrc
+          echo "machine git.heroku.com" >> ~/.netrc
+          echo "  login ${{ secrets.HEROKU_API_KEY }}" >> ~/.netrc
 
       - name: Add Heroku remote
         run: git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git || true
 
+      - name: Stash local changes
+        run: git stash --include-untracked
+
       - name: Pull from Heroku
         run: git pull heroku main --rebase
 
+      - name: Apply stashed changes
+        run: git stash pop
+
       - name: Deploy to Heroku
-        run: |
-          echo "machine api.heroku.com" > ~/.netrc
-          echo "  login ${{ secrets.HEROKU_API_KEY }}" >> ~/.netrc
-          echo "  password ${{ secrets.HEROKU_API_KEY }}" >> ~/.netrc
-          git push heroku main --force
+        run: git push heroku main --force
